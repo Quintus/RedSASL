@@ -1,0 +1,72 @@
+RedSASL SASL implementation
+===========================
+
+RedSASL is an extract of a larger proprietary project I was
+working on and whose future is uncertain. During the course of that
+project, I wrote an implementation of RFC 4422 (Simple Authentication
+and Security Layer -- SASL) which is contained in the files you are
+looking at just now.
+
+*************************************************************************
+* The RedSASL implementation is not used by me currently and will not   *
+* see any development at the moment. I however found that the code      *
+* should be released to the public rather than getting lost in the      *
+* depths of my computer, because there was quite a bit of work put into *
+* it and others might profit from it or want to build upon it.          *
+*************************************************************************
+
+The code conforms mostly to RFC 4422 with the biggest problem being
+that Unicode user names are not supported. Since I've never used this
+code in a production software, it may well contain more bugs. Using it
+is your own responsibility, so you should glance over the code. It's
+richly documented (as it *was* intended to be used in a real project
+at some point) so one can find the way through.
+
+A simple CMake build file is provided to ease building the library,
+but you can also just copy the two files into your own project. The
+CMake build system builds RedSASL as a static library. To compile, do
+this in the project root directory:
+
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
+    # make install
+
+The `make install' command will install the library and the header to
+your system. You can pass `-DCMAKE_INSTALL_PREFIX=/path/to/dir' if you
+don't like the default path (/usr/local).
+
+There's a single dependency, and that's OpenSSL. It's not used for any
+kind of network traffic (because RedSASL doesn't do any network
+traffic), but for encoding and decoding Base64. If you dislike this
+dependency, edit redsasl.cpp and replace the base64_encode() and
+base64_decode() helper functions with your own implementation of
+Base64. Then remove the OpenSSL #include statements and adapt the
+CMake build file to not look for OpenSSL anymore (if you use the CMake
+build file).
+
+The code is written for C++11, so your compiler should support that.
+
+Supported SASL mechanisms
+-------------------------
+
+RedSASL supports these SASL mechanisms:
+
+* ANONYMOUS (RFC 4505)
+* EXTERNAL (RFC 4422, Appendix A)
+* PLAIN (RFC 4616)
+* SCRAM-SHA1 (RFC 5802)
+  * NOTE: SCRAM-SHA1-PLUS is _unsupported_
+* SCRAM-SHA256
+  * NOTE: SCRAM-SHA256-PLUS is _unsupported_
+
+Support for DIGEST-MD5 was started, but never completed. This is why
+compiling the code gives a warning about that one. CRAM-MD5 is not
+included at all.
+
+License
+-------
+
+RedSASL is BSD-licensed; see LICENSE for the exact licensing
+conditions.
