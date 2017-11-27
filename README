@@ -58,7 +58,7 @@ RedSASL supports these SASL mechanisms:
 * PLAIN (RFC 4616)
 * SCRAM-SHA1 (RFC 5802)
   * NOTE: SCRAM-SHA1-PLUS is _unsupported_
-* SCRAM-SHA256
+* SCRAM-SHA256 (RFC 7677)
   * NOTE: SCRAM-SHA256-PLUS is _unsupported_
 
 Support for DIGEST-MD5 was started, but never completed. This is why
